@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <title>ToDo List</title>
+        <link rel="stylesheet" href="todo.css">
+    </head>
+    <body>
+        <p class="todo-head">ToDo List</p>
+        <div class="input-css-grid">
+        <input type="text" placeholder="Todo Name" class="js-name-input name-input-css">
+        <input type="date" class="js-date-input date-input-css">
+        <button class="js-add-button add-button-css">Add</button>
+        <div class="js-todo todo-grid"></div>
+        </div>
+        <script>
+            const todoList = [];
+
+            document.querySelector('.js-add-button').addEventListener('click', ()=>{
+                addTodo();
+            });
+
+            function addTodo(){
+                const inputElement = document.querySelector('.js-name-input');
+                const name = inputElement.value;
+
+                const inputDateElement = document.querySelector('.js-date-input');
+                const dueDate = inputDateElement.value;
+
+                //todoList.push({name: name, dueDate: dueDate});
+                todoList.push({ name, dueDate});
+
+                inputElement.value = '';
+                inputDateElement.value = '';
+
+                renderTodoList();
+            }
+
+            function renderTodoList(){
+            let todoListHTML = '';
+            
+            todoList.forEach((todoObject, index)=>{
+                const{name, dueDate} = todoObject;
+                const html = `
+                <div>${name}</div> 
+                <div>${dueDate}</div>
+                <button class="delete" onclick="
+                    todoList.splice(${index},1);
+                    renderTodoList();
+                    ">Delete</button>`;
+                todoListHTML += html;
+            });
+            /*for(let i = 0; i < todoList.length; i++){
+                const todoObject = todoList[i];
+
+                const{name, dueDate} = todoObject;
+                const html = `<p>${name} ${dueDate} <button onclick="
+                    todoList.splice(${i},1);
+                    renderTodoList();
+                    ">Delete</button></p>`;
+                todoListHTML += html;
+            }*/
+            document.querySelector('.js-todo').innerHTML = todoListHTML;
+        }
+        </script>
+    </body>
+</html>
